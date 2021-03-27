@@ -134,9 +134,16 @@ class HBNBCommand(cmd.Cmd):
             x = x.split('=') 
             key = x[0]
             value = x[1]
+            if value[0] and value[-1] == "\"":
+                value = value[1:-1]
+                value = value.replace("\"", "\\\"")
+                value = value.replace("_", " ")
             if hasattr(new_instance, key):
                 setattr(new_instance, key, value)
-        
+        storage.save()
+        print(new_instance.id)
+        storage.save()
+
 
         
 
