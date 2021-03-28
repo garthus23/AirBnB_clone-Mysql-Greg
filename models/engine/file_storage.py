@@ -60,5 +60,6 @@ class FileStorage:
             for key, val in (FileStorage.__objects).items():
                 if key.split('.')[1] == obj.id:
                     del FileStorage.__objects[key]
-                    return
+                    break
+            FileStorage.save(obj)
                 
