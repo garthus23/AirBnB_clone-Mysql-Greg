@@ -131,7 +131,7 @@ class HBNBCommand(cmd.Cmd):
         new_instance = HBNBCommand.classes[args[0]]()
         del args[0]
         for x in args:
-            x = x.split('=') 
+            x = x.split('=')
             key = x[0]
             value = x[1]
             if value[0] and value[-1] == "\"":
@@ -143,9 +143,6 @@ class HBNBCommand(cmd.Cmd):
         storage.save()
         print(new_instance.id)
         storage.save()
-
-
-        
 
     def help_create(self):
         """ Help information for the create method """
@@ -340,6 +337,7 @@ class HBNBCommand(cmd.Cmd):
         """ Help information for the update class """
         print("Updates an object with new information")
         print("Usage: update <className> <id> <attName> <attVal>\n")
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
