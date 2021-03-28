@@ -17,7 +17,7 @@ class FileStorage:
             if key.split('.')[0] == cls.__name__:
                 temp[key] = val
         return temp
-        
+
     def new(self, obj):
         """Adds new object to storage dictionary"""
         self.all().update({obj.to_dict()['__class__'] + '.' + obj.id: obj})
@@ -56,10 +56,10 @@ class FileStorage:
             pass
 
     def delete(self, obj=None):
+        """ delete an object in the dict """
         if obj:
             for key, val in (FileStorage.__objects).items():
                 if key.split('.')[1] == obj.id:
                     del FileStorage.__objects[key]
                     break
             FileStorage.save(obj)
-                
