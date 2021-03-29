@@ -27,27 +27,30 @@ class DBStorage:
             getenv("HBNB_MYSQL_HOST"),
             getenv("HBNB_MYSQL_DB")),
             pool_pre_ping=True)
-        
+
         if getenv("HBNB_ENV") == 'test':
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
         _dict = {}
         query = []
-        if cls:       
+        if cls:
+            if isinstance(cls, str):
+                cls = eval(cls)
             query = self.__session.query(cls).all()
-        else: 
-            query = self.__session.query(State).all()
-#            query = self.__session.query(User).all()
-            query = self.__session.query(City).all()
-#            query = self.__session.query(Amenity).all()
-#           query = self.__session.query(Place).all()
-#            query = self.__session.query(Review).all()
-        
+
+        if cls is None:
+            query += self.__session.query(State).all()
+           # query += self.__session.query(User).all()
+            query += self.__session.query(City).all()
+           # query += self.__session.query(Amenity).all()
+           # query += self.__session.query(Place).all()
+           # query += self.__session.query(Review).all()
+
         for val in query:
             key = '{}.{}'.format(val.__class__.__name__, val.id)
-            _dict.__objects[key] = val
-            return _dict
+            _dict[key] = val
+        return _dict
 
     def new(self, obj):
         """ add object to db """
@@ -65,5 +68,6 @@ class DBStorage:
     def reload(self):
         """ reloaf all tables """
         Base.metadata.create_all(self.__engine)
-        session_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        session_factory = sessionmaker(bind=self.__engine,
+                                       expire_on_commit=False)
         self.__session = scoped_session(session_factory)
