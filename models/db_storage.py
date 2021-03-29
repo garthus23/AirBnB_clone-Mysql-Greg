@@ -28,7 +28,7 @@ class DBStorage:
             getenv("HBNB_MYSQL_DB")),
             pool_pre_ping=True)
         
-        if getenv(HBNB_ENV) == 'test':
+        if getenv("HBNB_ENV") == 'test':
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
@@ -36,17 +36,17 @@ class DBStorage:
         query = []
         if cls:       
             query = self.__session.query(cls).all()
-        else:
-            query = self.__session.query(User).all()
+        else: 
             query = self.__session.query(State).all()
+#            query = self.__session.query(User).all()
             query = self.__session.query(City).all()
-            query = self.__session.query(Amenity).all()
-            query = self.__session.query(Place).all()
-            query = self.__session.query(Review).all()
+#            query = self.__session.query(Amenity).all()
+#           query = self.__session.query(Place).all()
+#            query = self.__session.query(Review).all()
         
         for val in query:
             key = '{}.{}'.format(val.__class__.__name__, val.id)
-            _dict[key] = val
+            _dict.__objects[key] = val
             return _dict
 
     def new(self, obj):
