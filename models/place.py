@@ -4,8 +4,6 @@ from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, Integer, Float, ForeignKey, Table
 from sqlalchemy.orm import relationship
 from models.review import Review
-import models
-from models.amenity import Amenity
 
 
 class Place(BaseModel, Base):
@@ -54,9 +52,11 @@ class Place(BaseModel, Base):
         returns:
         list: list of amenities
         """
+        import models
+        from models.amenity import Amenity
         amenities_list = []
         for _ams in models.storage.all(Amenity).values():
-            if _ams.id in _ams.id:
+            if _ams.id in self.amenity_ids:
                 amenities_list.append(_ams)
         return amenities_list
 
@@ -68,5 +68,5 @@ class Place(BaseModel, Base):
         Args
             val [obj]: obj to be set
         """
-        if isinstance(self, val, Amenity):
-            self.amenity_ids.append(val.id)
+        if type(obj) == Amenity:
+            self.amenity_ids.append(obj.id)
