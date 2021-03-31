@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-
+""" summary """
 from os import getenv
 from models.base_model import BaseModel, Base
 from models.user import User
@@ -31,6 +31,10 @@ class DBStorage:
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
+        """ summary
+        Args:
+            cls type, optional: description. defaults to None
+        """
         _dict = {}
         query = []
         if cls is not None:
@@ -42,7 +46,7 @@ class DBStorage:
             query += self.__session.query(State).all()
             query += self.__session.query(User).all()
             query += self.__session.query(City).all()
-            # query += self.__session.query(Amenity).all()
+            query += self.__session.query(Amenity).all()
             query += self.__session.query(Place).all()
             query += self.__session.query(Review).all()
 
@@ -70,3 +74,6 @@ class DBStorage:
         session_factory = sessionmaker(bind=self.__engine,
                                        expire_on_commit=False)
         self.__session = scoped_session(session_factory)
+
+    def close(self):
+        self.__session.close()
