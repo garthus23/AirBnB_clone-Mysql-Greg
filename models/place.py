@@ -5,6 +5,7 @@ from sqlalchemy import Column, String, Integer, Float, ForeignKey, Table
 from sqlalchemy.orm import relationship
 from models.review import Review
 import models
+from models.amenity import Amenity
 
 
 class Place(BaseModel, Base):
@@ -20,7 +21,18 @@ class Place(BaseModel, Base):
     price_by_night = Column(Integer, nullable=False, default=0)
     latitude = Column(Float, nullable=True)
     longitude = Column(Float, nullable=True)
+    amenity_ids = []
     reviews = relationship("Review", backref="place", cascade="all, delete")
+    amenities = relationship("Amenity", secondary="place_amenity",
+                             viewonly=False)
+
+    place_amenity = Table("place_amenity", Base.metadata,
+                          Column("place_id", String(60),
+                                 ForeignKey("places.id"),
+                                 nullable=False, primary_key=True),
+                          Column("amenity_id", String(60),
+                                 ForeignKey("amenities.id"), nullable=False,
+                                 primary_key=True))
 
     @property
     def reviews(self):
@@ -30,8 +42,31 @@ class Place(BaseModel, Base):
             list: list of review instances
         """
         reviews_list = []
-        reviews_dict = models.storage.all(Review)
-        for rev_id, obj in reviews_dict.items():
-            if self.id == obj.place_id:
-                reviews_list.append(obj)
+        for revId in models.storage.all(Review).values():
+            if reviews.place_id == self.id:
+                reviews_list.append(revId)
         return reviews_list
+
+    @property
+    def amenities(self):
+        """ amenities getter
+
+        returns:
+        list: list of amenities
+        """
+        amenities_list = []
+        for _ams in models.storage.all(Amenity).values():
+            if _ams.id in _ams.id:
+                amenities_list.append(_ams)
+        return amenities_list
+
+    @amenities.setter
+    def amenities(self, val):
+        """
+        amenities setter
+
+        Args
+            val [obj]: obj to be set
+        """
+        if isinstance(self, val, Amenity):
+            self.amenity_ids.append(val.id)
