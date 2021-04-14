@@ -1,9 +1,10 @@
 #!/usr/bin/python3
-# generates a .tgz archive 
+# generates a .tgz archive
 ''' module to execute cmd '''
 from fabric.api import *
 
-env.hosts = ['localhost',]
+env.hosts = ['localhost', ]
+
 
 def do_pack():
     ''' function to generate .tgz '''
@@ -12,7 +13,8 @@ def do_pack():
     except:
         local('mkdir versions', capture=False)
     try:
-        local("tar -cvzf versions/web_static_$(date +%Y%m%d%H%M%S).tgz web_static")
+        local("tar -cvzf versions/web_static_$(date +%Y%m%d%H%M%S).tgz \
+              web_static")
         result = local("ls -t versions | head -n 1")
         return result
     except:
