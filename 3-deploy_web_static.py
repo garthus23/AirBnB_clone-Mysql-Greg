@@ -45,4 +45,4 @@ def deploy():
         except:
             return False
 
-    do_pack())
+    do_pack()
