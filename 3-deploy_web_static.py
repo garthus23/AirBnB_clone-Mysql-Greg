@@ -17,8 +17,8 @@ def deploy():
         try:
             local("tar -cvzf versions/web_static_$(date +%Y%m%d%H%M%S).tgz \
                   web_static")
-            archive_path = local("ls -t versions | head -n 1")
-            return ("versions/%s" % (archive_path))
+            archive_name = local("ls -t versions | head -n 1")
+            return ("versions/%s" % (archive_name))
         except:
             return None
 
