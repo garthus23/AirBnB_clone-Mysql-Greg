@@ -17,8 +17,9 @@ def deploy():
         try:
             local("tar -cvzf versions/web_static_$(date +%Y%m%d%H%M%S).tgz \
                   web_static")
-            archive_name = local("ls -t versions | head -n 1")
-            return ("versions/%s" % (archive_name))
+            archive_name = local("ls -t versions | grep web_static | \
+                                 head -n 1", capture=True)
+            do_deploy("versions/%s" % (archive_name))
         except:
             return None
 
@@ -40,7 +41,8 @@ def deploy():
             run("rm -rf /data/web_static/current")
             run("ln -s /data/web_static/releases/%s/ \
                 /data/web_static/current" % (fine))
+            return True
         except:
             return False
 
-    do_deploy(do_pack())
+    do_pack())
