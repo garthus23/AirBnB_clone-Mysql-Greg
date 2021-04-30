@@ -34,6 +34,7 @@ def pyvalue():
 @app.route('/python/<text>', strict_slashes=False)
 def pytxtvalue(text):
     """ pytxtvalue """
+    text = text.replace('_', ' ')
     return 'Python is %s' % text
 
 if __name__ == "__main__":
