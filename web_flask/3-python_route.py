@@ -35,7 +35,7 @@ def pyvalue():
 def pytxtvalue(text):
     """ pytxtvalue """
     text = text.replace('_', ' ')
-    return 'Python is %s' % text
+    return 'Python %s' % text
 
 if __name__ == "__main__":
     app.run()
