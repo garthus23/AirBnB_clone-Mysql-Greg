@@ -38,9 +38,10 @@ def pytxtvalue(text):
     text = text.replace('_', ' ')
     return 'Python %s' % text
 
+
 @app.route('/number/<int:n>', strict_slashes=False)
 def isnumber(n):
-    """ isnumber """ 
+    """ isnumber """
     return "%d is a number" % n
 
 
