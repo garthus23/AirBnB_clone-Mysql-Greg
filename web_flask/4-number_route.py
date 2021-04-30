@@ -41,7 +41,7 @@ def pytxtvalue(text):
 @app.route('/number/<int:n>', strict_slashes=False)
 def isnumber(n):
     """ isnumber """ 
-    return "%d is number" % n
+    return "%d is a number" % n
 
 
 if __name__ == "__main__":
